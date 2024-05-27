@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { twMerge } from "tailwind-merge"
 
 const players = [
     {player: "Samarth S.", points: 30.8, rebounds: 5.3, assists: 4.2, steals: 1.1, blocks: 2.3},
@@ -43,7 +44,12 @@ export default function SortableList() {
                         {["Points", "Rebounds", "Assists", "Steals", "Blocks"].map((header) => (
                             <td 
                                 key={header}
-                                className={`border-b-[1px] border-b-gray-300 text-left pl-6 pr-3 py-[0.875rem] transition-all hover:text-blue-600 hover:cursor-pointer ${filter == header ? "text-blue-600" : "text-gray-900"}`}
+                                className={twMerge(
+                                    "border-b-[1px] border-b-gray-300 text-left", 
+                                    "pl-6 pr-3 py-[0.875rem] transition-all hover:text-blue-600", 
+                                    "hover:cursor-pointer",
+                                    filter == header ? "text-blue-600" : "text-gray-900"
+                                )}
                                 onClick={(e) => {
                                     setFilter(header)
                                     sortByFilter(header)
@@ -58,13 +64,13 @@ export default function SortableList() {
                     {players.map((player, index) => index == players.length - 1 ? (
                         <tr key={index}>
                             {Object.keys(player).map((item) => (
-                                <td key={item} className="text-gray-700 pl-6 pr-3 py-[0.875rem] text-left">{player[item]}</td>
+                                <td key={item} className="text-gray-700 pl-6 pr-3 py-[0.875rem] text-left">{player[item as keyof typeof player]}</td>
                             ))}
                         </tr>
                     ) : (
                         <tr key={index}>
                             {Object.keys(player).map((item) => (
-                                <td key={item} className="border-b-[1px] border-b-gray-300 text-gray-700 pl-6 pr-3 py-[0.875rem] text-left">{player[item]}</td>
+                                <td key={item} className="border-b-[1px] border-b-gray-300 text-gray-700 pl-6 pr-3 py-[0.875rem] text-left">{player[item as keyof typeof player]}</td>
                             ))}
                         </tr>
                     ))}
