@@ -629,10 +629,10 @@ export default function SignUp() {
                         <input 
                             type="submit" 
                             className="bg-blue-700 text-white hover:cursor-pointer rounded-lg px-4 py-2" 
-                            disabled={submittable}
+                            disabled={!submittable}
                         />
                     </div>
-                    {submittable && <div className="flex justify-end mt-4 text-xs text-red-500">One or more fields are missing/incorrect</div>}
+                    {!submittable && <div className="flex justify-end mt-4 text-xs text-red-500">One or more fields are missing/incorrect</div>}
                 </form>
             </main>
         )
