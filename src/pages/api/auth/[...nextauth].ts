@@ -26,10 +26,10 @@ export const authOptions: NextAuthOptions = {
                 })
 
                 if (user) {
-                    return user
+                    return user as any
                 }
 
-                return { error: "incorrect credentials" }
+                return { error: "incorrect credentials" } as any
             }
         })
     ],

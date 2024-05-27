@@ -16,13 +16,8 @@ import { User } from "./api/db/users"
 import { Player } from "./api/db/players"
 import Link from "next/link"
 
-interface FormBody {
-    username: string
-    password: string
-    name: string
-    bg_file: File
-    fg_file?: File
-    number: number
+interface StringIndex {
+    [s: string]: any
 }
 
 async function authenticate(user: User, player: Player) {
@@ -51,7 +46,7 @@ async function authenticate(user: User, player: Player) {
 const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
-    let user = {}
+    let user = {} as StringIndex
     let player = {
         team: 1,
         position: "SG",
@@ -60,13 +55,13 @@ const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         draft_pick: 1,
         bg_file: "null",
         fg_file: "null"
-    }
+    } as StringIndex
 
     for(let item of formData.entries()) {
         if (["username", "password", "name"].includes(item[0])) {
             user[item[0]] = item[1]
         } else {
-            if (!Number.isNaN(parseInt(item[1]))) {
+            if (!(item[1] instanceof File) && !Number.isNaN(parseInt(item[1]))) {
                 player[item[0]] = parseInt(item[1])
             } else if (item[1] instanceof File) {
                 let string = Buffer.from(await (item[1] as File).text(), "base64").toString("base64")
@@ -81,7 +76,7 @@ const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         }
     }
 
-    await authenticate(user, player)
+    await authenticate(user as User, player as Player)
 }
 
 export default function SignUp() {
@@ -93,7 +88,7 @@ export default function SignUp() {
     const [bgName, setBgName] = useState('')
     const [cardType, setCardType] = useState("static")
 
-    const [submittable, setSubmittable] = useState(false)
+    const [submittable, setSubmittable] = useState(true)
     const [errorStack, setErrorStack] = useState({
         "username": false,
         "jersey": false
@@ -102,13 +97,11 @@ export default function SignUp() {
     const fileCaptureFg = (e) => {
         const selectedFile: File = e.target.files[0]
         setFgName(selectedFile.name)
-        setSubmittable(true)
     }
     
     const fileCaptureBg = (e) => {
         const selectedFile: File = e.target.files[0]
         setBgName(selectedFile.name)
-        setSubmittable(true)
     }
 
 
@@ -639,7 +632,7 @@ export default function SignUp() {
                             disabled={submittable}
                         />
                     </div>
-                    {submittable && <div className="flex justify-end mt-4 text-xs text-red-500">One or more fields are incorrect</div>}
+                    {submittable && <div className="flex justify-end mt-4 text-xs text-red-500">One or more fields are missing/incorrect</div>}
                 </form>
             </main>
         )

@@ -36,7 +36,8 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
             }
         })
 
-        res.status(200).json({result: user})
+        await prisma.$disconnect()
+        return res.status(200).json({result: user})
     }
 
     const all_players = await prisma.players.findMany()
@@ -74,11 +75,13 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
             where: req.body
         })
 
-        res.status(200).json({result: user})
+        await prisma.$disconnect()
+        return res.status(200).json({result: user})
     }
 
     if (!req.body.id) {
-        res.status(400).json({message: "request body attribute 'id' is required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "request body attribute 'id' is required"})
     }
 
     const exists = await prisma.players.findFirst({
@@ -88,7 +91,8 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     })
 
     if (exists) {
-        res.status(400).json({message: "user player profile already exists (consider using PATCH)"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "user player profile already exists (consider using PATCH)"})
     }
 
     if (!(
@@ -107,7 +111,8 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         && req.body.fg_file
         && req.body.bg_file
     )) {
-        res.status(400).json({
+        await prisma.$disconnect()
+        return res.status(400).json({
             message: "missing one (or more) request body attributes"
         })
     }
@@ -146,7 +151,8 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
         await prisma.players.deleteMany()
-        res.status(200).json({message: `all user player profiles deleted`})
+        await prisma.$disconnect()
+        return res.status(200).json({message: `all user player profiles deleted`})
     }
 
     await prisma.players.delete({
@@ -182,7 +188,8 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
-        res.status(400).json({message: "query attribute 'id' required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "query attribute 'id' required"})
     }
 
     if (req.body) {
@@ -192,7 +199,8 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
             },
             data: req.body
         })
-        res.status(200).json({result: updated})
+        await prisma.$disconnect()
+        return res.status(200).json({result: updated})
     }
 
     res.status(400).json({message: "request body with new values required"})

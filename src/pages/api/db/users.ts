@@ -28,7 +28,8 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
             }
         })
 
-        res.status(200).json({result: user})
+        await prisma.$disconnect()
+        return res.status(200).json({result: user})
     }
 
     const all_users = await prisma.users.findMany()
@@ -54,11 +55,13 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
             where: req.body
         })
 
-        res.status(200).json({result: user})
+        await prisma.$disconnect()
+        return res.status(200).json({result: user})
     }
 
     if (!req.body.username) {
-        res.status(400).json({message: "request body attribute 'username' is required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "request body attribute 'username' is required"})
     }
 
     const exists = await prisma.users.findFirst({
@@ -68,15 +71,18 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     })
 
     if (exists) {
-        res.status(400).json({message: `username already exists`})
+        await prisma.$disconnect()
+        return res.status(400).json({message: `username already exists`})
     }
 
     if (!req.body.password) {
-        res.status(400).json({message: "request body attribute 'password' is required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "request body attribute 'password' is required"})
     }
 
     if (!req.body.name) {
-        res.status(400).json({message: "request body attribute 'name' is required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "request body attribute 'name' is required"})
     }
 
     const new_user = await prisma.users.create({
@@ -102,7 +108,8 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
         await prisma.users.deleteMany()
-        res.status(200).json({message: `all users deleted`})
+        await prisma.$disconnect()
+        return res.status(200).json({message: `all users deleted`})
     }
 
     await prisma.users.delete({
@@ -128,7 +135,8 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
-        res.status(400).json({message: "query attribute 'id' required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "query attribute 'id' required"})
     }
 
     if (req.body) {
@@ -138,7 +146,9 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
             },
             data: req.body
         })
-        res.status(200).json({result: updated})
+        
+        await prisma.$disconnect()
+        return res.status(200).json({result: updated})
     }
 
     res.status(400).json({message: "request body with new values required"})

@@ -27,7 +27,8 @@ export interface Stat {
 async function GET(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect() 
     if (!req.query.year) {
-        res.status(400).json({message: "query attribute 'year' required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "query attribute 'year' required"})
     }
 
     if (req.query.id && req.query.year) {
@@ -38,7 +39,8 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
             }
         })
 
-        res.status(200).json({result: stat})
+        await prisma.$disconnect()
+        return res.status(200).json({result: stat})
     }
 
     const all_stats = await prisma.stats.findMany({
@@ -69,11 +71,13 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
 async function POST(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.body.id) {
-        res.status(400).json({message: "request body attribute 'id' is required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "request body attribute 'id' is required"})
     }
 
     if (!req.body.year) {
-        res.status(400).json({message: "request body attribute 'year' is required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "request body attribute 'year' is required"})
     }
 
     const exists = await prisma.stats.findFirst({
@@ -84,7 +88,8 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     })
 
     if (exists) {
-        res.status(400).json({
+        await prisma.$disconnect()
+        return res.status(400).json({
             message: "user stat record for this year already exists (consider using PATCH)"
         })
     }
@@ -100,7 +105,8 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         && req.body.fta
         && req.body.ftm
     )) {
-        res.status(400).json({
+        await prisma.$disconnect()
+        return res.status(400).json({
             message: "missing one (or more) request body attributes"
         })
     }
@@ -135,7 +141,8 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
 async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.year) {
-        res.status(400).json({message: "query attribute 'year' required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "query attribute 'year' required"})
     }
 
     if (!req.query.id) {
@@ -144,7 +151,8 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
                 year: req.query.year as string
             }
         })
-        res.status(200).json({message: `all '${req.query.year}' user stat records deleted`})
+        await prisma.$disconnect()
+        return res.status(200).json({message: `all '${req.query.year}' user stat records deleted`})
     }
 
     await prisma.stats.delete({
@@ -179,11 +187,13 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
-        res.status(400).json({message: "query attribute 'id' required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "query attribute 'id' required"})
     }
 
     if (!req.query.year) {
-        res.status(400).json({message: "query attribute 'year' required"})
+        await prisma.$disconnect()
+        return res.status(400).json({message: "query attribute 'year' required"})
     }
 
     if (req.body) {
@@ -194,7 +204,8 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
             },
             data: req.body
         })
-        res.status(200).json({result: updated})
+        await prisma.$disconnect()
+        return res.status(200).json({result: updated})
     }
 
     res.status(400).json({message: "request body with new values required"})
