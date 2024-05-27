@@ -94,18 +94,18 @@ export default function SignUp() {
         "jersey": false
     })
 
-    const fileCaptureFg = (e) => {
+    const fileCaptureFg = (e: any) => {
         const selectedFile: File = e.target.files[0]
         setFgName(selectedFile.name)
     }
     
-    const fileCaptureBg = (e) => {
+    const fileCaptureBg = (e: any) => {
         const selectedFile: File = e.target.files[0]
         setBgName(selectedFile.name)
     }
 
 
-    const checkUser = async (e) => {
+    const checkUser = async (e: any) => {
         const value = e.target.value
         const res = await axios.post(
             "http://localhost:3000/api/db/users?_existence=true",
@@ -124,7 +124,7 @@ export default function SignUp() {
         setErrorStack(prev => ({"username": false, "jersey": prev.jersey}))
     }
 
-    const checkJersey = async (e) => {
+    const checkJersey = async (e: any) => {
         const value = e.target.value ? e.target.value : 0
         const res = await axios.post(
             "http://localhost:3000/api/db/players?_existence=true",
