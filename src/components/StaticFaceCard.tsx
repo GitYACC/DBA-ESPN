@@ -37,7 +37,12 @@ export default function StaticFaceCard(fcprops: StaticFaceCardProps) {
                 "bg-white rounded-lg px-3 py-2", 
                 "font-bold text-xs justify-center items-center"
             )}>
-                    <img className="h-4 w-4" src={fcprops.teamImg}></img>
+                    <Image 
+                        width={16}
+                        height={16}
+                        alt="logo"
+                        src={fcprops.teamImg} 
+                    />
                     <span>{fcprops.children}</span>
             </div>
             <div className="absolute h-full w-full overflow-hidden rounded-r-lg rounded-bl-lg">

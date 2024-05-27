@@ -5,7 +5,6 @@ import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import { twMerge } from "tailwind-merge"
 import axios from "axios"
-import { prisma } from "./api/_base"
 
 import Lock from "@/components/svg/Lock"
 import ImageUpload from "@/components/svg/ImageUpload"
@@ -15,6 +14,7 @@ import LeftArrow from "@/components/svg/LeftArrow"
 import Loading from "@/components/Loading"
 import { User } from "./api/db/users"
 import { Player } from "./api/db/players"
+import Link from "next/link"
 
 interface FormBody {
     username: string
@@ -33,6 +33,7 @@ async function authenticate(user: User, player: Player) {
 
     const user_id = res.data.result.id
 
+    console.log(user)
     console.log({...player, id: user_id, name: user.name})
 
     const profile = await axios.post(
@@ -68,7 +69,12 @@ const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
             if (!Number.isNaN(parseInt(item[1]))) {
                 player[item[0]] = parseInt(item[1])
             } else if (item[1] instanceof File) {
-                player[item[0]] = Buffer.from(await (item[1] as File).text(), "base64").toString("base64")
+                let string = Buffer.from(await (item[1] as File).text(), "base64").toString("base64")
+                if (string.length > 0) {
+                    player[item[0]] = string
+                } else {
+                    player[item[0]] = "null"
+                }
             } else {
                 player[item[0]] = item[1]
             }
@@ -80,13 +86,14 @@ const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
 
 export default function SignUp() {
     const { data: session, status } = useSession()
+    const router = useRouter()
 
     const [passwordType, setPasswordType] = useState("password")
     const [fgName, setFgName] = useState('')
     const [bgName, setBgName] = useState('')
     const [cardType, setCardType] = useState("static")
 
-    const [submittable, setSubmittable] = useState(true)
+    const [submittable, setSubmittable] = useState(false)
     const [errorStack, setErrorStack] = useState({
         "username": false,
         "jersey": false
@@ -95,11 +102,13 @@ export default function SignUp() {
     const fileCaptureFg = (e) => {
         const selectedFile: File = e.target.files[0]
         setFgName(selectedFile.name)
+        setSubmittable(true)
     }
     
     const fileCaptureBg = (e) => {
         const selectedFile: File = e.target.files[0]
         setBgName(selectedFile.name)
+        setSubmittable(true)
     }
 
 
@@ -502,9 +511,9 @@ export default function SignUp() {
                                     (which will be your foreground). 
                                     Here&apos;s a
                                 </span>
-                                <a className="text-blue-700 hover:underline px-1" href="https://www.remove.bg/" target="_blank">
+                                <Link className="text-blue-700 hover:underline px-1" href="https://www.remove.bg/" target="_blank">
                                     tool
-                                </a> 
+                                </Link> 
                                 <span>to help with that</span>
                             </p>
                             
@@ -620,10 +629,10 @@ export default function SignUp() {
                     </div>
                     </>)}
                     <div className="flex justify-end items-center gap-10 mt-12">
-                        <a href="/" className="flex justify-center items-center gap-3 hover:text-blue-700">
+                        <Link href="/" className="flex justify-center items-center gap-3 hover:text-blue-700">
                             <LeftArrow className="w-3 h-3"/>
                             Back
-                        </a>
+                        </Link>
                         <input 
                             type="submit" 
                             className="bg-blue-700 text-white hover:cursor-pointer rounded-lg px-4 py-2" 
@@ -635,7 +644,6 @@ export default function SignUp() {
             </main>
         )
     }
-        
-    const router = useRouter()
+
     router.push("/")
 }

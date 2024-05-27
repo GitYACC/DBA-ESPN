@@ -7,7 +7,7 @@ interface LinkProps {
     children: ReactNode
 }
 
-export default function Link(props: LinkProps) {
+export default function NavLink(props: LinkProps) {
     return (
         <a href={props.url ? props.url : "#"}>
             <div className={twMerge(

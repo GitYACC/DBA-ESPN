@@ -5,6 +5,7 @@ import { useState } from "react"
 import Basketball from "./svg/Basketball"
 import Lock from "./svg/Lock"
 import { twMerge } from "tailwind-merge"
+import Link from "next/link"
 
 
 async function authenticate(user: string, password: string, clear?: boolean) {
@@ -68,11 +69,11 @@ export default function Login(props: LoginProps) {
                 <div className="flex flex-col px-10 pt-3 pb-6">
                     <div className="flex flex-row justify-center items-center text-md text-gray-600 mb-2 w-full">
                         <span className="w-full">Password</span>
-                        <a 
+                        <Link 
                             href="#" 
                             className="flex justify-end text-xs w-full hover:text-blue-400 font-bold"
                             onClick={() => setClose(!close)}
-                        >Forgot password?</a>
+                        >Forgot password?</Link>
                     </div>
                     <div className="flex">
                         <input
@@ -108,7 +109,7 @@ export default function Login(props: LoginProps) {
                     >Sign In</button>
                     <div className="flex text-xs text-gray-600 gap-2">
                         <span>Need an account?</span>
-                        <a href="/signup" className="text-indigo-600 hover:text-indigo-400">Register</a>
+                        <Link href="/signup" className="text-indigo-600 hover:text-indigo-400">Register</Link>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react
 import { twMerge } from "tailwind-merge"
 import { PlayerRecord } from "./LeagueData"
 import Image from "next/image"
+import Link from "next/link"
 
 interface TeamData {
     logo: string,
@@ -38,7 +39,7 @@ function TeamDescription() {
                     <dt className="text-sm font-medium leading-6 text-gray-900">Players</dt>
                     <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200 overflow-hidden">
-                        <a href='/league?player=Samarth Shastry' className="group">
+                        <Link href='/league?player=Samarth Shastry' className="group">
                             <li className="group-hover:bg-gray-50 flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                             <div className="flex w-0 flex-1 items-center">
                                 <div className="font-semibold text-gray-800 w-8">PG</div>
@@ -46,8 +47,8 @@ function TeamDescription() {
                             </div>
                             <span className="flex-shrink-0 text-xs text-gray-400">R2 / P1</span>
                             </li>
-                        </a>
-                        <a href="/league?player=Bharadwaj Tallapragada" className="group">
+                        </Link>
+                        <Link href="/league?player=Bharadwaj Tallapragada" className="group">
                             <li className="group-hover:bg-gray-50 flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                             <div className="flex w-0 flex-1 items-center">
                                 <div className="font-semibold text-gray-800 w-8">SG</div>
@@ -55,8 +56,8 @@ function TeamDescription() {
                             </div>
                             <span className="flex-shrink-0 text-xs text-gray-400">R1 / P4</span>
                             </li>
-                        </a>
-                        <a href="/league?player=Kaif Jeelani" className="group">
+                        </Link>
+                        <Link href="/league?player=Kaif Jeelani" className="group">
                             <li className="group-hover:bg-gray-50 flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                             <div className="flex w-0 flex-1 items-center">
                                 <div className="font-semibold text-gray-800 w-8">C</div>
@@ -64,7 +65,7 @@ function TeamDescription() {
                             </div>
                             <span className="flex-shrink-0 text-xs text-gray-400">R3 / P4</span>
                             </li>
-                        </a>
+                        </Link>
                     </ul>
                     </dd>
                 </div>
