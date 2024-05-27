@@ -35,8 +35,8 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
-           if(user?.error === "incorrect credentials") {
-              return `?error=${user?.error}`
+           if((user as any).error === "incorrect credentials") {
+              return `?error=${(user as any).error}`
            }
            
            return true
