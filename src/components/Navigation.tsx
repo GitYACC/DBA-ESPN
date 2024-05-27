@@ -1,0 +1,34 @@
+import { Session } from "next-auth";
+import Link from "./Link";
+import Logo from "./svg/Logo";
+import { signOut } from "next-auth/react";
+import { twMerge } from "tailwind-merge";
+
+interface NavigationProps {
+    session: Session
+}
+
+export default function Navigation(props: NavigationProps) {
+    return (
+        <div className="flex border-b-gray-200/50 border-b justify-between">
+            <div className="flex py-4 px-4 items-center gap-8 w-full">
+                <a href="/" className={twMerge(
+                    "flex items-center justify-center", 
+                    "px-4 py-1 rounded-md gap-3", 
+                    "group transition ease-in-out", 
+                    "hover:bg-[#008ff519] hover:cursor-pointer"
+                )}>
+                    <div className="text-xl font-bold transition ease-in-out text-blue-600">DBA</div>
+                    <Logo className="transition ease-in-out w-6 h-6 fill-blue-600"/>
+                </a>
+                <Link url="/teams">Teams</Link>
+                <Link url="/league">League</Link>
+                <Link url="/season">Season</Link>
+            </div>
+            <div className="flex flex-row-reverse py-4 px-4 w-full items-center gap-8">
+                <button onClick={() => signOut()} className="font-bold text-red-500 text-sm py-2 px-2 border-[1px] border-red-100 rounded-md bg-red-100/25 hover:border-red-200 hover:bg-red-100/50">Sign Out</button>
+                <div className="text-sm font-bold text-gray-700">{props.session.user?.name}</div>
+            </div>
+        </div>
+    )
+}

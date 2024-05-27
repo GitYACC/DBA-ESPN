@@ -6,3 +6,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model users {
+  id       Int     @id(map: "users_pk") @default(autoincrement())
+  admin    Boolean
+  username String  @db.VarChar
+  password String  @db.VarChar
+  name     String  @db.VarChar
+}
+
+model players {
+  name        String @db.VarChar
+  age         Int
+  jersey      Int
+  draft_round Int
+  draft_pick  Int
+  position    String @db.VarChar
+  overall     Int
+  height      Int
+  weight      Int
+  wingspan    Int
+  vertical    Int
+  team        Int
+  id          Int    @id(map: "players_pk")
+  bg_file     Bytes
+  fg_file     Bytes
+}
+
+model stats {
+  points   Int
+  rebounds Int
+  assists  Int
+  steals   Int
+  blocks   Int
+  fga      Int
+  fgm      Int
+  fta      Int
+  ftm      Int
+  id       Int    @id(map: "season_2024_pk")
+  year     String @db.VarChar
+}
+
+model teams {
+  team_id Int    @id(map: "teams_pk") @default(autoincrement())
+  name    String @db.VarChar
+  overall Int
+  players Int[]
+  gm      String @db.VarChar
+  coach   String @db.VarChar
+  wins    Int    @default(0)
+  loss    Int    @default(0)
+}
+
+model overalls {
+  defending  Int
+  finishing  Int
+  iq         Int
+  passing    Int
+  speed      Int
+  rebounding Int
+  shooting   Int
+  handling   Int
+  id         Int @id(map: "stats_pk")
+}

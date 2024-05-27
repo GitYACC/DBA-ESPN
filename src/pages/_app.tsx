@@ -9,7 +9,6 @@ export default function App({
     return (
         <SessionProvider 
             session={session}
-            basePath="/"
             // Re-fetch every 10 minutes
             refetchInterval={10 * 60}
             refetchOnWindowFocus={true}
