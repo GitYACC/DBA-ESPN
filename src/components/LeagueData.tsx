@@ -96,7 +96,7 @@ export default function LeagueData(props: LeagueDataProps) {
     useEffect(() => {
         setQuery(props.player ? props.player : "")
         setActive(filteredItems[0])
-    })
+    }, [props.player])
     
     return (
         <div className="flex h-full w-full justify-center items-center">

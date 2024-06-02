@@ -81,7 +81,10 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     if (!req.body.id) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "request body attribute 'id' is required"})
+        return res.status(400).json({
+            message: "id is required",
+            details: "request body error"
+        })
     }
 
     const exists = await prisma.players.findFirst({
@@ -95,46 +98,45 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         return res.status(400).json({message: "user player profile already exists (consider using PATCH)"})
     }
 
-    if (!(
-        req.body.name
-        && req.body.team
-        && req.body.position
-        && req.body.overall
-        && req.body.height
-        && req.body.weight
-        && req.body.wingspan
-        && req.body.vertical
-        && req.body.age
-        && req.body.jersey
-        && req.body.draft_round
-        && req.body.draft_pick
-        && req.body.fg_file
-        && req.body.bg_file
-    )) {
+    if (
+        req.body.name === null
+        || req.body.team === null
+        || req.body.position === null
+        || req.body.overall === null
+        || req.body.height === null
+        || req.body.weight === null
+        || req.body.wingspan === null
+        || req.body.vertical === null
+        || req.body.age === null
+        || req.body.jersey === null
+        || req.body.draft_round === null
+        || req.body.draft_pick === null
+        || req.body.fg_file === null
+        || req.body.bg_file === null
+    ) {
         await prisma.$disconnect()
         return res.status(400).json({
-            message: "missing one (or more) request body attributes"
+            message: "missing one (or more) attributes",
+            details: "request body error"
+        })
+    }
+
+    const jersey = await prisma.players.findFirst({
+        where: {
+            jersey: req.body.jersey
+        }
+    })
+
+    if (jersey) {
+        await prisma.$disconnect()
+        return res.status(400).json({
+            message: "jersey number taken",
+            details: "request body error"
         })
     }
 
     const new_player = await prisma.players.create({
-        data: {
-            id: req.body.id,
-            name: req.body.name,
-            team: req.body.team,
-            position: req.body.position,
-            overall: req.body.overall,
-            height: req.body.height,
-            weight: req.body.weight,
-            wingspan: req.body.wingspan,
-            vertical: req.body.vertical,
-            age: req.body.age,
-            jersey: req.body.jersey,
-            draft_round: req.body.draft_round,
-            draft_pick: req.body.draft_pick,
-            fg_file: req.body.fg_file,
-            bg_file: req.body.bg_file
-        }
+        data: req.body
     })
 
     res.status(200).json({result: new_player})
@@ -189,7 +191,10 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "query attribute 'id' required"})
+        return res.status(400).json({
+            message: "id required",
+            details: "query error"
+        })
     }
 
     if (req.body) {
@@ -203,7 +208,10 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json({result: updated})
     }
 
-    res.status(400).json({message: "request body with new values required"})
+    res.status(400).json({
+        message: "new values required",
+        details: "request body error"
+    })
     await prisma.$disconnect()
 }
 

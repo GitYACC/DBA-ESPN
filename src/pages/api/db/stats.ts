@@ -28,7 +28,10 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect() 
     if (!req.query.year) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "query attribute 'year' required"})
+        return res.status(400).json({
+            message: "year required",
+            details: "query error"
+        })
     }
 
     if (req.query.id && req.query.year) {
@@ -72,12 +75,18 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.body.id) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "request body attribute 'id' is required"})
+        return res.status(400).json({
+            message: "id is required",
+            details: "request body error"
+        })
     }
 
     if (!req.body.year) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "request body attribute 'year' is required"})
+        return res.status(400).json({
+            message: "year is required",
+            details: "request body error"
+        })
     }
 
     const exists = await prisma.stats.findFirst({
@@ -94,37 +103,26 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 
-    if (!(
-        req.body.points
-        && req.body.rebounds
-        && req.body.assists
-        && req.body.steals
-        && req.body.blocks
-        && req.body.fga
-        && req.body.fgm
-        && req.body.fta
-        && req.body.ftm
-    )) {
+    if (
+        req.body.points === null
+        || req.body.rebounds === null
+        || req.body.assists === null
+        || req.body.steals === null
+        || req.body.blocks === null
+        || req.body.fga === null
+        || req.body.fgm === null
+        || req.body.fta === null
+        || req.body.ftm === null
+    ) {
         await prisma.$disconnect()
         return res.status(400).json({
-            message: "missing one (or more) request body attributes"
+            message: "missing one (or more) attributes",
+            details: "request body error"
         })
     }
 
     const new_stat = await prisma.stats.create({
-        data: {
-            id: req.body.id,
-            year: req.body.year,
-            points: req.body.points,
-            rebounds: req.body.rebounds,
-            assists: req.body.assists,
-            blocks: req.body.blocks,
-            steals: req.body.steals,
-            fga: req.body.fga,
-            fgm: req.body.fgm,
-            fta: req.body.fta,
-            ftm: req.body.ftm
-        }
+        data: req.body
     })
 
     res.status(200).json({result: new_stat})
@@ -142,7 +140,10 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.year) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "query attribute 'year' required"})
+        return res.status(400).json({
+            message: "year required",
+            details: "query error"
+        })
     }
 
     if (!req.query.id) {
@@ -188,12 +189,18 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "query attribute 'id' required"})
+        return res.status(400).json({
+            message: "id required",
+            details: "query error"
+        })
     }
 
     if (!req.query.year) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "query attribute 'year' required"})
+        return res.status(400).json({
+            message: "year required",
+            details: "query error"
+        })
     }
 
     if (req.body) {
@@ -208,7 +215,10 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json({result: updated})
     }
 
-    res.status(400).json({message: "request body with new values required"})
+    res.status(400).json({
+        message: "new values required",
+        details: "request body error"
+    })
     await prisma.$disconnect()
 }
 

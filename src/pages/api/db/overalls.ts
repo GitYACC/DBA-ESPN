@@ -57,7 +57,10 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.body.id) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "request body attribute 'id' is required"})
+        return res.status(400).json({
+            message: "id is required",
+            details: "request body error"
+        })
     }
 
     const exists = await prisma.overalls.findFirst({
@@ -71,34 +74,25 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         return res.status(400).json({message: "user overall record already exists (consider using PATCH)"})
     }
 
-    if (!(
-        req.body.defending
-        && req.body.finishing
-        && req.body.iq
-        && req.body.passing
-        && req.body.speed
-        && req.body.rebounding
-        && req.body.shooting
-        && req.body.handling
-    )) {
+    if (
+        req.body.defending === null
+        || req.body.finishing === null
+        || req.body.iq === null
+        || req.body.passing === null
+        || req.body.speed === null
+        || req.body.rebounding === null
+        || req.body.shooting === null
+        || req.body.handling === null
+    ) {
         await prisma.$disconnect()
         return res.status(400).json({
-            message: "missing one (or more) request body attributes"
+            message: "missing one (or more) attributes",
+            details: "request body error"
         })
     }
 
     const new_stat = await prisma.overalls.create({
-        data: {
-            id: req.body.id,
-            defending: req.body.defending,
-            finishing: req.body.finishing,
-            iq: req.body.iq,
-            passing: req.body.passing,
-            speed: req.body.speed,
-            rebounding: req.body.rebounding,
-            shooting: req.body.shooting,
-            handling: req.body.handling
-        }
+        data: req.body
     })
 
     res.status(200).json({result: new_stat})
@@ -147,7 +141,10 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
     if (!req.query.id) {
         await prisma.$disconnect()
-        return res.status(400).json({message: "query attribute 'id' required"})
+        return res.status(400).json({
+            message: "id required",
+            details: "query error"
+        })
     }
 
     if (req.body) {
@@ -161,7 +158,10 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json({result: updated})
     }
 
-    res.status(400).json({message: "request body with new values required"})
+    res.status(400).json({
+        message: "new values required",
+        details: "request body error"
+    })
     await prisma.$disconnect()
 }
 

@@ -17,8 +17,8 @@ export default function HomePage() {
                         </div>
                         <SortableList />
                     </div>
-                    <div className="flex justify-between">
-                        <div className="flex flex-col gap-4">
+                    <div className="flex flex-col justify-between">
+                        <div className="flex flex-col gap-4 mb-10">
                             <div className="text-gray-900 font-semibold text-base">Upcoming Games</div>
                             <Game 
                                 team1={{

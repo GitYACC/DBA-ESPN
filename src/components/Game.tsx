@@ -17,7 +17,7 @@ interface GameProps {
 
 export default function Game(props: GameProps) {
     return (
-        <div className="flex flex-col justify-between hover:bg-gray-50 cursor-pointer">
+        <div className="flex flex-col justify-between hover:bg-gray-50 cursor-pointer w-fit">
             <div className="flex p-4 border rounded-lg gap-4 items-center">
                 <div className="flex flex-col items-end">
                     <div className="text-gray-900 font-semibold text-base w-20 text-right">{props.team1.name}</div>
