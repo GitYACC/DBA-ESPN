@@ -25,12 +25,18 @@ function capitalize(s: string | null) {
 }
 
 async function authenticate(user: User, player: Player) {
+    var result;
     try {
-        const result = await axios.post(
+        result = await axios.post(
             "../api/db/users", 
             user
         )
+    } catch (error: any) {
+        Router.push(`/signup?error=${error.response.data.message}`)
+        return
+    }
 
+    try {
         await axios.post(
             "../api/db/players",
             {
@@ -40,6 +46,9 @@ async function authenticate(user: User, player: Player) {
             }
         )
     } catch (error: any) {
+        await axios.delete(
+            `../api/db/user?id=${result.data.result.id}`,
+        )
         Router.push(`/signup?error=${error.response.data.message}`)
         return
     }
