@@ -25,7 +25,7 @@ export default function Navigation(props: NavigationProps) {
                 <NavLink url="/teams">Teams</NavLink>
                 <NavLink url="/league">League</NavLink>
                 <NavLink url="/season">Season</NavLink>
-                {props.session.user!.admin && <NavLink url="/admin">Admin</NavLink>}
+                {(props.session.user! as any).admin && <NavLink url="/admin">Admin</NavLink>}
             </div>
             <div className="flex flex-row-reverse px-4 w-full items-center gap-8">
                 <button onClick={() => signOut()} className="font-bold text-red-500 text-sm py-2 px-2 border-[1px] border-red-100 rounded-md bg-red-100/25 hover:border-red-200 hover:bg-red-100/50">Sign Out</button>
