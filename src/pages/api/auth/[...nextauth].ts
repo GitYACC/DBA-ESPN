@@ -40,6 +40,16 @@ export const authOptions: NextAuthOptions = {
            }
            
            return true
+        },
+        async jwt({ token, user }: { token: any, user: any}) {
+            if (user) {
+                token.admin = user.admin
+            }
+            return token;
+        },
+        async session({ session, token }: { session: any, token: any}) {
+            session.user.admin = token.admin
+            return session;
         }
      }
 }

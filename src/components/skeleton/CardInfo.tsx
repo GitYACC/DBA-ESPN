@@ -1,9 +1,9 @@
 import Link from "next/link";
-import LeftArrow from "./svg/LeftArrow";
-import StaticCardSelect from "./StaticCardSelect";
-import DynamicCardSelect from "./DynamicCardSelect";
-import StaticFaceCard from "./StaticFaceCard";
-import DynamicFaceCard from "./DynamicFaceCard";
+import LeftArrow from "../svg/LeftArrow";
+import StaticCardSelect from "../cards/StaticCardSelect";
+import DynamicCardSelect from "../cards/DynamicCardSelect";
+import StaticFaceCard from "../cards/StaticFaceCard";
+import DynamicFaceCard from "../cards/DynamicFaceCard";
 
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";

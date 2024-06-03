@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import ImageUpload from "./svg/ImageUpload";
+import ImageUpload from "../svg/ImageUpload";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 

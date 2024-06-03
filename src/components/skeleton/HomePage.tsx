@@ -1,7 +1,7 @@
-import Feed from "./Feed";
-import Game from "./Game";
-import GameCast from "./GameCast";
-import SortableList from "./SortableList";
+import Feed from "../feed/Feed";
+import Game from "../league/Game";
+import GameCast from "../league/GameCast";
+import SortableList from "../league/SortableList";
 
 
 
@@ -9,7 +9,7 @@ export default function HomePage() {
     return (
         <div className="flex h-full justify-center items-center overflow-hidden">
             <div className="flex justify-center items-start h-full w-full">
-                <div className="flex flex-col w-2/3 bg-white h-full border px-14 py-10 gap-10 overflow-scroll">
+                <div className="flex flex-col w-2/3 bg-white h-full border-x px-14 py-10 gap-10 overflow-scroll">
                     <div className="flex flex-col gap-10">
                         <div>
                             <div className="text-gray-900 font-semibold text-base">League Leaders</div>

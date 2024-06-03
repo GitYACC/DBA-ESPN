@@ -1,6 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { twMerge } from "tailwind-merge"
-import { PlayerRecord } from "./LeagueData"
+import { PlayerRecord } from "../league/LeagueData"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -78,7 +78,7 @@ function TeamDescription() {
 export default function Teams() {
     return (
         <div className="flex w-full h-full justify-center p-10">
-            <div className="flex flex-col divide-y border rounded-lg shadow-sm w-full h-fit">
+            <div className="flex flex-col divide-y border rounded-lg shadow-sm w-full h-fit bg-white">
                 {teams.map((value, index) => (
                     <Disclosure key={index} as="div" className="flex flex-col w-full h-full">
                         {({ open }) => (

@@ -1,4 +1,4 @@
-import DynamicFaceCard from "./DynamicFaceCard";
+import DynamicFaceCard from "../cards/DynamicFaceCard";
 import type { PlayerRecord } from "./LeagueData";
 
 interface RecordDescriptionProps {

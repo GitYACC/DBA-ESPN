@@ -1,7 +1,7 @@
-import Loading from "@/components/Loading";
-import Login from "@/components/Login";
-import Navigation from "@/components/Navigation";
-import Teams from "@/components/Teams";
+import Loading from "@/components/skeleton/Loading";
+import Login from "@/components/skeleton/Login";
+import Navigation from "@/components/navigation/Navigation";
+import Teams from "@/components/teams/Teams";
 import { useSession } from "next-auth/react"
 import { useSearchParams } from "next/navigation";
 
@@ -19,7 +19,7 @@ export default function League() {
     
     if (session) {
         return (
-            <main className="flex flex-col h-screen w-screen">
+            <main className="flex flex-col h-screen w-screen bg-gray-100/50">
                 <Navigation session={session}></Navigation>
                 <Teams></Teams>
             </main>

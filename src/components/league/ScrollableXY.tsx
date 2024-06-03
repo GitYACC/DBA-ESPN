@@ -9,11 +9,11 @@ interface ScrollableXYProps {
 export default function ScrollableXY(props: ScrollableXYProps) {
     return (
         <div className="text-sm w-full h-full overflow-scroll no-scrollbar">
-            <table className="divide-y divide-gray-300 border-spacing-0 w-[70rem] overflow-scroll">
+            <table className="divide-y divide-gray-300 border-spacing-0 w-full overflow-scroll">
                 <thead>
                     <tr className="font-semibold">
                         <td className={twMerge(
-                            "text-gray-900 pl-8 pr-48 py-[0.875rem]", 
+                            "text-gray-900 pl-8 py-[0.875rem]", 
                             "text-left sticky top-0 left-0 z-10 bg-gray-200"
                         )}>{props.headers[0]}</td>
                         {props.headers.slice(1).map((header) => (
@@ -21,7 +21,7 @@ export default function ScrollableXY(props: ScrollableXYProps) {
                                 key={header}
                                 className={twMerge(
                                     "sticky top-0 bg-gray-100 px-12 transition-all", 
-                                    "hover:text-blue-400 hover:cursor-pointer"
+                                    "text-center"
                                 )}
                             >
                                 {header}

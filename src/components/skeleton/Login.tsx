@@ -2,8 +2,8 @@
 
 import { signIn } from "next-auth/react"
 import { useState } from "react"
-import Basketball from "./svg/Basketball"
-import Lock from "./svg/Lock"
+import Basketball from "../svg/Basketball"
+import Lock from "../svg/Lock"
 import { twMerge } from "tailwind-merge"
 import Link from "next/link"
 

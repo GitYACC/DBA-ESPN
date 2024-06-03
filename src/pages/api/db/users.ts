@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
 import { NextApiResponse, NextApiRequest } from 'next'
 import { prisma } from "../_base"
-import { getToken } from "next-auth/jwt"
 
 export interface User {
     id: number

@@ -7,12 +7,12 @@ import Router from "next/router"
 import axios from "axios"
 
 import LeftArrow from "@/components/svg/LeftArrow"
-import Loading from "@/components/Loading"
+import Loading from "@/components/skeleton/Loading"
 import { User } from "./api/db/users"
 import { Player } from "./api/db/players"
 import Link from "next/link"
-import UserInfo from "@/components/UserInfo"
-import CardInfo from "@/components/CardInfo"
+import UserInfo from "@/components/skeleton/UserInfo"
+import CardInfo from "@/components/skeleton/CardInfo"
 
 interface StringIndex {
     [s: string]: any

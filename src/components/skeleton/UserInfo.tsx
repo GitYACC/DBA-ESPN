@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import Input from "./Input"
-import Lock from "./svg/Lock"
+import Lock from "../svg/Lock"
 
 interface ErrorStack {
     username: boolean

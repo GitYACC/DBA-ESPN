@@ -1,6 +1,6 @@
-import Loading from "@/components/Loading";
-import Login from "@/components/Login";
-import Navigation from "@/components/Navigation";
+import Loading from "@/components/skeleton/Loading";
+import Login from "@/components/skeleton/Login";
+import Navigation from "@/components/navigation/Navigation";
 import { useSession } from "next-auth/react"
 import { useSearchParams } from "next/navigation";
 

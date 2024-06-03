@@ -1,6 +1,6 @@
 import Image from "next/image"
-import RightTriangle from "./svg/RightTriangle"
-import LeftTriangle from "./svg/LeftTriangle"
+import RightTriangle from "../svg/RightTriangle"
+import LeftTriangle from "../svg/LeftTriangle"
 
 interface Name {
     name: string

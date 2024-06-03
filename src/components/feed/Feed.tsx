@@ -1,11 +1,11 @@
-import { GameCastAsFeed } from "./GameCast";
-import Alert from "./svg/Alert";
-import Bell from "./svg/Bell";
-import Info from "./svg/Info";
-import Megaphone from "./svg/Megaphone";
-import RightArrow from "./svg/RightArrow";
-import Swap from "./svg/Swap";
-import SwapUp from "./svg/SwapUp";
+import { GameCastAsFeed } from "../league/GameCast";
+import Alert from "../svg/Alert";
+import Bell from "../svg/Bell";
+import Info from "../svg/Info";
+import Megaphone from "../svg/Megaphone";
+import RightArrow from "../svg/RightArrow";
+import Swap from "../svg/Swap";
+import SwapUp from "../svg/SwapUp";
 
 type FeedStack = {
     id: number
@@ -119,7 +119,7 @@ const feed: FeedStack[] = [
 
 export default function Feed() {
     return (
-        <div className="flex flex-col w-1/3 h-full bg-white border-t overflow-y-scroll">
+        <div className="flex flex-col w-1/3 h-full bg-white overflow-y-scroll">
             <ul className="overflow-scroll">
                 {feed.map((stack: FeedStack) => {
                     switch(stack.type) {

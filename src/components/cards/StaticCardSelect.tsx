@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import ImageUpload from "./svg/ImageUpload";
+import ImageUpload from "../svg/ImageUpload";
 
 interface SelectProps {
     bgName: string
