@@ -47,7 +47,7 @@ async function authenticate(user: User, player: Player) {
         )
     } catch (error: any) {
         await axios.delete(
-            `../api/db/user?id=${result.data.result.id}`,
+            `../api/db/users?id=${result.data.result.id}`,
         )
         Router.push(`/signup?error=${error.response.data.message}`)
         return
