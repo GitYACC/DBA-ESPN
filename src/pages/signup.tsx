@@ -89,7 +89,7 @@ const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
                     .from(await (item[1] as File).text(), "base64")
                     .toString("base64")
                 if (string.length > 0)
-                    player[item[0]] = item[1]
+                    player[item[0]] = string
                 else
                     player[item[0]] = Buffer
                         .from("null", "base64")
