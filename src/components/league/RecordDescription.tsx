@@ -18,8 +18,8 @@ export default function RecordDescription(props: RecordDescriptionProps) {
                 <DynamicFaceCard
                     teamImg={props.active.team}
                     number={parseInt(props.active.number)}
-                    playerBg={props.active.bgphoto}
-                    playerFg={props.active.fgphoto}
+                    playerBg={props.active.bg_file}
+                    playerFg={props.active.fg_file}
                 >
                     {trim(props.active.first_name + " " + props.active.last_name)}
                 </DynamicFaceCard>

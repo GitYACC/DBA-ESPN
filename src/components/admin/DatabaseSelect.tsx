@@ -28,6 +28,8 @@ export default function DatabaseSelect(props: DatabaseProps) {
       query === ''
         ? data
         : data.filter((item) => 
+            // make it search through all given fields of an object
+            // probably a nested loop over object keys
             (item.id)
                 .toString()
                 .replace(/\s+/g, '')

@@ -3,9 +3,13 @@ import { authOptions } from "../auth/[...nextauth]"
 import { prisma } from "../_base"
 import { NextApiRequest, NextApiResponse } from "next"
 
+
+// add "game" field to stats table to keep track of individual game stats
+// season stats can later be calculated by averaging all the games
 export interface Stat {
     id: number
     year: string
+    game: number
     points: number
     rebounds: number
     assists: number

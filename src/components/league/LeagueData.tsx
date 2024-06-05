@@ -21,8 +21,8 @@ export interface PlayerRecord {
     vertical: string,
     age: string,
     number: string,
-    fgphoto: string,
-    bgphoto: string,
+    fg_file: string,
+    bg_file: string,
     defending: number,
     finishing: number,
     iq: number,
@@ -81,6 +81,8 @@ export default function LeagueData(props: LeagueDataProps) {
             )
 
     useEffect(() => {
+        // get all users and their respective player/overall/stats/teams records
+        // merge them into one required object
         setQuery(props.player ? props.player : "")
         setActive(filteredItems[0])
     }, [props.player])
