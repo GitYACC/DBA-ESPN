@@ -23,8 +23,9 @@ export interface Stat {
 
 /*
     Query:
-        id?:<number> returns specific user stat sheet
-        year<number> returns specific stat year
+        id?:<number> returns all of specific user stat sheets
+        year:<number> returns specific stat year
+        game?:<number> returns specific stat game
 
     returns all stat records from a certain year
 */
@@ -38,11 +39,39 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 
-    if (req.query.id && req.query.year) {
+    //stats?year=&game=
+    if (!req.query.id && req.query.game) {
+        const stat = await prisma.stats.findFirst({
+            where: {
+                year: req.query.year as string,
+                game: parseInt(req.query.game as string)
+            }
+        })
+
+        await prisma.$disconnect()
+        return res.status(200).json({result: stat})
+    }
+
+    //stats?year=&id=
+    if (req.query.id && !req.query.game) {
         const stat = await prisma.stats.findUnique({
             where: {
                 id: parseInt(req.query.id as string),
                 year: req.query.year as string
+            }
+        })
+
+        await prisma.$disconnect()
+        return res.status(200).json({result: stat})
+    }
+
+    //stats?year=&id=&game=
+    if (req.query.id && req.query.game) {
+        const stat = await prisma.stats.findUnique({
+            where: {
+                id: parseInt(req.query.id as string),
+                year: req.query.year as string,
+                game: parseInt(req.query.game as string)
             }
         })
 
@@ -63,6 +92,7 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
     Body:
         id:<number>
         year:<string>
+        game:<number>
         points:<number>
         rebounds:<number>
         assists:<number>
@@ -108,7 +138,8 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (
-        req.body.points === null
+        req.body.game === null
+        || req.body.points === null
         || req.body.rebounds === null
         || req.body.assists === null
         || req.body.steals === null
@@ -137,6 +168,7 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     Query:
         id?:<number> specific user stat record to delete
         year:<string> specific stat year to delete
+        game?:<number> specific stat game to delete
 
     Deletes every stat records from the given year if id not provided
 */
@@ -153,7 +185,10 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     if (!req.query.id) {
         await prisma.stats.deleteMany({
             where: {
-                year: req.query.year as string
+                year: req.query.year as string,
+                game: req.query.game 
+                    ? parseInt(req.query.game as string)
+                    : undefined
             }
         })
         await prisma.$disconnect()
