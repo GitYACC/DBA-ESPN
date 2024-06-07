@@ -27,14 +27,18 @@ export default function DatabaseSelect(props: DatabaseProps) {
     const filtered =
       query === ''
         ? data
-        : data.filter((item) => 
-            // make it search through all given fields of an object
-            // probably a nested loop over object keys
-            (item.id)
-                .toString()
-                .replace(/\s+/g, '')
-                .includes(query.toLowerCase().replace(/\s+/g, ''))
-            )
+        : data.filter((item) => {
+            for (let object of Object.entries(item)) {
+                let allowed = (object[1] as any)
+                    .toString()
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                    .includes(query.toLowerCase().replace(/\s+/g, ''))
+
+                if (allowed) return true
+            }
+            return false
+        })
 
     
     useEffect(() => {

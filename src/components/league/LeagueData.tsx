@@ -105,7 +105,7 @@ export default function LeagueData(props: LeagueDataProps) {
       query === ''
         ? test
         : test.filter((item) => 
-            (item.first_name + " " + item.last_name)
+            (item.first_name + item.last_name)
                 .toLowerCase()
                 .replace(/\s+/g, '')
                 .includes(query.toLowerCase().replace(/\s+/g, ''))
