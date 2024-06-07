@@ -4,7 +4,7 @@ import { Team } from './teams'
 import { prisma } from "../_base"
 import { NextApiRequest, NextApiResponse } from "next"
 
-export interface Overalls {
+export interface Overall {
     id: number
     defending: number
     finishing: number

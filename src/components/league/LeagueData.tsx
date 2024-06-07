@@ -1,12 +1,17 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react'
+import { Combobox, ComboboxInput, ComboboxOptions } from '@headlessui/react'
 import ScrollableXY from './ScrollableXY'
 import ScrollRecords from './ScrollRecords'
-import { player } from '@/pages/api/db/players'
+import { Player, player } from '@/pages/api/db/players'
 import RecordDescription from './RecordDescription'
 import EmptyData from './EmptyData'
+import axios from 'axios'
+import { User } from '@/pages/api/db/users'
+import { Stat } from '@/pages/api/db/stats'
+import { Overall } from '@/pages/api/db/overalls'
+import { Team } from '@/pages/api/db/teams'
 
 export interface PlayerRecord {
     index: number, 
@@ -44,6 +49,32 @@ const headers = [
     "Shooting", 
     "Handling"
 ]
+
+function generateTable(
+    users: User[], 
+    players: Player[], 
+    stats: Stat[], 
+    overalls: Overall[], 
+    teams: Team[]
+) {
+    console.log(users, players, stats, overalls, teams)
+}
+
+async function getData() {
+    const { data: users } = await axios.get("../api/db/users")
+    const { data: players } = await axios.get("../api/db/players")
+    const { data: stats } = await axios.get("../api/db/stats?year=2024")
+    const { data: overalls } = await axios.get("../api/db/overalls")
+    const { data: teams } = await axios.get("../api/db/teams")
+
+    return generateTable(
+        users.result, 
+        players.result,
+        stats.result,
+        overalls.result,
+        teams.result
+    )
+}
 
 const test = [
     player(1, "Samarth",    "Shastry",      "/warriors.png",    "PG | SG",  "96",   "5'9",  "115 lbs", "5'11",      "26'", "19", "1",   "/mahomes_fg.png",   "/mahomes_bg.png",   99, 99, 99, 99, 99, 99, 99, 99),
@@ -83,6 +114,9 @@ export default function LeagueData(props: LeagueDataProps) {
     useEffect(() => {
         // get all users and their respective player/overall/stats/teams records
         // merge them into one required object
+        getData().then((value) => {
+            
+        })
         setQuery(props.player ? props.player : "")
         setActive(filteredItems[0])
     }, [props.player])
@@ -102,22 +136,12 @@ export default function LeagueData(props: LeagueDataProps) {
                     <ScrollableXY 
                         headers={headers}
                     >
-                        {query.length == 0 ? (
-                            <ScrollRecords 
-                                headers={headers} 
-                                data={test}
-                                setActive={setActive}
-                                valueRepr={(item) => item.first_name + " " + item.last_name}
-                            ></ScrollRecords>
-                        ) : (
-                            <ScrollRecords 
-                                headers={headers} 
-                                data={filteredItems}
-                                setActive={setActive}
-                                valueRepr={(item) => item.first_name + " " + item.last_name}
-                            ></ScrollRecords>
-                        )}
-                        
+                        <ScrollRecords 
+                            headers={headers} 
+                            data={filteredItems}
+                            setActive={setActive}
+                            valueRepr={(item) => item.first_name + " " + item.last_name}
+                        ></ScrollRecords>
                     </ScrollableXY>
                 </ComboboxOptions>
                 <RecordDescription active={active}/>

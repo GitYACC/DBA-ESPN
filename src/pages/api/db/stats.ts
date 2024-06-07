@@ -3,9 +3,6 @@ import { authOptions } from "../auth/[...nextauth]"
 import { prisma } from "../_base"
 import { NextApiRequest, NextApiResponse } from "next"
 
-
-// add "game" field to stats table to keep track of individual game stats
-// season stats can later be calculated by averaging all the games
 export interface Stat {
     id: number
     year: string
@@ -137,9 +134,24 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 
+    const hasGame = await prisma.stats.findFirst({
+        where: {
+            id: req.body.id,
+            year: req.body.year,
+            game: req.body.game
+        }
+    })
+
+    if (hasGame) {
+        await prisma.$disconnect()
+        return res.status(400).json({
+            message: "game stats already exists",
+            details: "request body error"
+        })
+    }
+
     if (
-        req.body.game === null
-        || req.body.points === null
+        req.body.points === null
         || req.body.rebounds === null
         || req.body.assists === null
         || req.body.steals === null
@@ -212,6 +224,7 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     Query:
         id:<number> user to be updated
         year:<string>
+        game:<number>
 
     Body:
         points?:<number>
@@ -242,11 +255,20 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 
+    if (!req.query.game) {
+        await prisma.$disconnect()
+        return res.status(400).json({
+            message: "game required",
+            details: "query error"
+        })
+    }
+
     if (req.body) {
         const updated = await prisma.stats.update({
             where: {
                 id: parseInt(req.query.id as string),
-                year: req.query.year as string
+                year: req.query.year as string,
+                game: parseInt(req.query.game as string)
             },
             data: req.body
         })
