@@ -119,6 +119,7 @@ export default function LeagueData(props: LeagueDataProps) {
         })
         setQuery(props.player ? props.player : "")
         setActive(filteredItems[0])
+        setSelectedItem(filteredItems[0])
     }, [props.player])
     
     return (
@@ -130,7 +131,8 @@ export default function LeagueData(props: LeagueDataProps) {
             onChange={setSelectedItem}
         >
             {active != null ? (
-            <div className='flex flex-col-reverse divide-y-reverse gap-4'>
+            <div className='flex flex-col divide-y gap-4'>
+                <RecordDescription active={active}/>
                 <ComboboxOptions static className="h-[25rem] w-full bg-white">
                     <>{query.length != 0 && filteredItems.length == 0 && setActive(null)}</>
                     <ScrollableXY 
@@ -144,7 +146,6 @@ export default function LeagueData(props: LeagueDataProps) {
                         ></ScrollRecords>
                     </ScrollableXY>
                 </ComboboxOptions>
-                <RecordDescription active={active}/>
             </div>) : (
                 <EmptyData />
             )}

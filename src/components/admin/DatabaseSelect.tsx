@@ -14,7 +14,7 @@ interface DatabaseProps {
 
 async function getDatabase(s: string) {
     return await axios.get(
-        `../api/db/${s}`
+        `../api/db/${s}${s == "stats" ? "?year=2024" : ""}`
     )
 }
 

@@ -42,9 +42,7 @@ export default function ScrollRecords<T>(props: ScrollRecordsProps & Data<T>) {
                 <td key={header} className="text-center p-2">{
                     item[header.toLowerCase()] instanceof Object 
                         ? "{}"
-                        : item[header.toLowerCase()] == true || item[header.toLowerCase()] == false
-                            ? item[header.toLowerCase()].toString()
-                            : item[header.toLowerCase()]
+                        : item[header.toLowerCase()].toString()
                 }</td>
             ))}
         </tr>

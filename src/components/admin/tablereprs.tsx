@@ -36,5 +36,47 @@ export const config: ConfigProps = {
             "name",
             "admin"
         ]
+    },
+    "stats": {
+        order: [
+            "id",
+            "year",
+            "game",
+            "points",
+            "rebounds",
+            "assists",
+            "blocks",
+            "steals",
+            "fgm",
+            "fga",
+            "ftm",
+            "fta",
+            "stats_id"
+        ]
+    },
+    "teams": {
+        order: [
+            "team_id",
+            "name",
+            "players",
+            "wins",
+            "loss",
+            "overall",
+            "gm",
+            "coach"
+        ]
+    },
+    "overalls": {
+        order: [
+            "id",
+            "defending",
+            "finishing",
+            "iq",
+            "passing",
+            "speed",
+            "rebounding",
+            "shooting",
+            "handling"
+        ]
     }
 }

@@ -49,9 +49,10 @@ model stats {
   fgm      Int
   fta      Int
   ftm      Int
-  id       Int    @id(map: "season_2024_pk")
   year     String @db.VarChar
   game     Int
+  id       Int
+  stats_id Int    @id(map: "stats_id_pk") @default(autoincrement())
 }
 
 model teams {

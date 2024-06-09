@@ -4,6 +4,7 @@ import { prisma } from "../_base"
 import { NextApiRequest, NextApiResponse } from "next"
 
 export interface Stat {
+    stats_id: number
     id: number
     year: string
     game: number
@@ -51,7 +52,7 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
 
     //stats?year=&id=
     if (req.query.id && !req.query.game) {
-        const stat = await prisma.stats.findUnique({
+        const stat = await prisma.stats.findMany({
             where: {
                 id: parseInt(req.query.id as string),
                 year: req.query.year as string
@@ -64,7 +65,7 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
 
     //stats?year=&id=&game=
     if (req.query.id && req.query.game) {
-        const stat = await prisma.stats.findUnique({
+        const stat = await prisma.stats.findFirst({
             where: {
                 id: parseInt(req.query.id as string),
                 year: req.query.year as string,
@@ -123,35 +124,21 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     const exists = await prisma.stats.findFirst({
         where: {
             id: req.body.id,
-            year: req.body.year
+            year: req.body.year,
+            game: req.body.game
         }
     })
 
     if (exists) {
         await prisma.$disconnect()
         return res.status(400).json({
-            message: "user stat record for this year already exists (consider using PATCH)"
-        })
-    }
-
-    const hasGame = await prisma.stats.findFirst({
-        where: {
-            id: req.body.id,
-            year: req.body.year,
-            game: req.body.game
-        }
-    })
-
-    if (hasGame) {
-        await prisma.$disconnect()
-        return res.status(400).json({
-            message: "game stats already exists",
-            details: "request body error"
+            message: "user stat record for this game and year already exists (consider using PATCH)"
         })
     }
 
     if (
-        req.body.points === null
+        req.body.game == null
+        || req.body.points === null
         || req.body.rebounds === null
         || req.body.assists === null
         || req.body.steals === null

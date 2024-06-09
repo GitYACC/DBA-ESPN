@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "../_base"
-import { Player } from "./players"
 
 
 export interface Team {
