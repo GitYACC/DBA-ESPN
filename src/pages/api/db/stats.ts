@@ -182,27 +182,19 @@ async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (!req.query.id) {
-        await prisma.stats.deleteMany({
-            where: {
-                year: req.query.year as string,
-                game: req.query.game 
-                    ? parseInt(req.query.game as string)
-                    : undefined
-            }
-        })
+        await prisma.stats.deleteMany()
         await prisma.$disconnect()
         return res.status(200).json({message: `all '${req.query.year}' user stat records deleted`})
     }
 
     await prisma.stats.delete({
         where: {
-            id: parseInt(req.query.id as string),
-            year: req.query.year as string
+            stats_id: parseInt(req.query.id as string)
         }
     })
 
     res.status(200).json({
-        message: `[${req.query.year}] user ${req.query.id as string} stat record deleted`
+        message: `stat ${req.query.id as string} deleted`
     })
     await prisma.$disconnect()
 }
