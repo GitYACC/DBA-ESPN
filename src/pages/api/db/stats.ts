@@ -226,28 +226,10 @@ async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 
-    if (!req.query.year) {
-        await prisma.$disconnect()
-        return res.status(400).json({
-            message: "year required",
-            details: "query error"
-        })
-    }
-
-    if (!req.query.game) {
-        await prisma.$disconnect()
-        return res.status(400).json({
-            message: "game required",
-            details: "query error"
-        })
-    }
-
     if (req.body) {
         const updated = await prisma.stats.update({
             where: {
-                id: parseInt(req.query.id as string),
-                year: req.query.year as string,
-                game: parseInt(req.query.game as string)
+                stats_id: parseInt(req.query.id as string)
             },
             data: req.body
         })
