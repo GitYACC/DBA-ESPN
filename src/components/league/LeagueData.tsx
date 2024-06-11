@@ -105,6 +105,8 @@ function generatePlayerProfile(
 ): PlayerRecord {
     let stat_avg = getStats(stat)
 
+    console.log(team)
+
     return {
         index: user.id,
         name: nameCapitalized(user.name),
