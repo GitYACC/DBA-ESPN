@@ -78,6 +78,15 @@ async function authenticate(user: User, player: Player) {
                 ftm: 0
             }
         )
+
+        let team = await axios.get(`../api/db/teams?id=${result.data.result.id % 4}`)
+
+        await axios.patch(
+            `../api/db/teams?id=${result.data.result.id % 4}`,
+            {
+                players: [...team.data.result.players, result.data.result.id]
+            }
+        )
     } catch (error: any) {
         await axios.delete(
             `../api/db/users?id=${result.data.result.id}`,
