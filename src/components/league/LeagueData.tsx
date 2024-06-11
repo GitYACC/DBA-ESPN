@@ -105,8 +105,6 @@ function generatePlayerProfile(
 ): PlayerRecord {
     let stat_avg = getStats(stat)
 
-    console.log(team)
-
     return {
         index: user.id,
         name: nameCapitalized(user.name),
@@ -158,6 +156,7 @@ function generateTable(
 
     let table = []
     for(let user of users) {
+        console.log(user.id, teams.find((t: Team) => t.players.includes(user.id)))
         table.push(
             generatePlayerProfile(
                 user,
