@@ -156,16 +156,17 @@ function generateTable(
 
     let table = []
     for(let user of users) {
-        console.log(user.id, teams.find((t: Team) => t.players.includes(user.id)))
-        table.push(
-            generatePlayerProfile(
-                user,
-                players.find((p: Player) => p.id == user.id)!,
-                stats.filter((s: Stat) => s.id == user.id)!,
-                overalls.find((o: Overall) => o.id == user.id)!,
-                teams.find((t: Team) => t.players.includes(user.id))!
+        if (!user.admin) {
+            table.push(
+                generatePlayerProfile(
+                    user,
+                    players.find((p: Player) => p.id == user.id)!,
+                    stats.filter((s: Stat) => s.id == user.id)!,
+                    overalls.find((o: Overall) => o.id == user.id)!,
+                    teams.find((t: Team) => t.players.includes(user.id))!
+                )
             )
-        )
+        }
     }
     return table
 }
