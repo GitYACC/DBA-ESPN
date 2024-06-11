@@ -45,6 +45,39 @@ async function authenticate(user: User, player: Player) {
                 name: user.name
             }
         )
+
+        await axios.post(
+            "../api/db/overalls",
+            {
+                id: result.data.result.id,
+                defending: 99,
+                finishing: 99,
+                iq: 99,
+                passing: 99,
+                speed: 99,
+                rebounding: 99,
+                shooting: 99,
+                handling: 99
+            }
+        )
+
+        await axios.post(
+            "../api/db/stats",
+            {
+                id: result.data.result.id,
+                year: "2024",
+                game: 0,
+                points: 0,
+                rebounds: 0,
+                assists: 0,
+                steals: 0,
+                blocks: 0,
+                fga: 0,
+                fgm: 0,
+                fta: 0,
+                ftm: 0
+            }
+        )
     } catch (error: any) {
         await axios.delete(
             `../api/db/users?id=${result.data.result.id}`,

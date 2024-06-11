@@ -1,6 +1,3 @@
-import { Player } from "@/pages/api/db/players"
-import { User } from "@/pages/api/db/users"
-
 interface ConfigProps {
     [s: string]: {
         repr?: (e: any) => string // if first key requires a different representation

@@ -1,12 +1,11 @@
-import test from "@/pages/test"
 import { Combobox, ComboboxInput, ComboboxOptions } from "@headlessui/react"
 import { useEffect, useState } from "react"
-import { User } from "@/pages/api/db/users"
 import EmptyData from "../league/EmptyData"
 import ScrollableXY from "../league/ScrollableXY"
 import ScrollRecords from "../league/ScrollRecords"
 import axios from "axios"
 import { config } from "./tablereprs"
+import Search from "../svg/Search"
 
 interface DatabaseProps {
     selected: string
@@ -59,9 +58,7 @@ export default function DatabaseSelect(props: DatabaseProps) {
                 onChange={setSelected}
             >
                 <div className="flex flex-row w-full p-4 gap-3 bg-white items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 stroke-gray-400">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                    </svg>
+                    <Search className="h-6 w-6" />
                     <ComboboxInput 
                         className="!outline-none w-full"
                         placeholder='Search...'
@@ -71,7 +68,7 @@ export default function DatabaseSelect(props: DatabaseProps) {
                     />
                 </div>
                 {filtered.length != 0 ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 overflow-scroll'>
                     <ComboboxOptions static className="h-full w-full bg-white">
                         <ScrollableXY 
                             headers={headers}
@@ -80,7 +77,7 @@ export default function DatabaseSelect(props: DatabaseProps) {
                                 disabled
                                 headers={headers} 
                                 data={filtered}
-                            ></ScrollRecords>
+                            />
                         </ScrollableXY>
                     </ComboboxOptions>
                 </div>) : (

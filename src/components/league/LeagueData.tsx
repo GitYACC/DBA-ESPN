@@ -12,20 +12,20 @@ import { User } from '@/pages/api/db/users'
 import { Stat } from '@/pages/api/db/stats'
 import { Overall } from '@/pages/api/db/overalls'
 import { Team } from '@/pages/api/db/teams'
+import Search from '../svg/Search'
 
 export interface PlayerRecord {
     index: number, 
-    first_name: string, 
-    last_name: string,
+    name: string,
     team: string,
     position: string,
-    overall: string,
-    height: string,
-    weight: string,
-    wingspan: string,
-    vertical: string,
-    age: string,
-    number: string,
+    overall: number,
+    height: number,
+    weight: number,
+    wingspan: number,
+    vertical: number,
+    age: number,
+    jersey: number,
     fg_file: string,
     bg_file: string,
     defending: number,
@@ -35,7 +35,11 @@ export interface PlayerRecord {
     speed: number,
     rebounding: number,
     shooting: number,
-    handling: number
+    handling: number,
+    points: number,
+    rebounds: number,
+    assists: number,
+    fgpercent: number
 }
 
 const headers = [
@@ -50,6 +54,98 @@ const headers = [
     "Handling"
 ]
 
+function nameCapitalized(s: string) {
+    let res = ""
+
+    for (let str of s.split(" ")) {
+        res += str.charAt(0).toUpperCase() + str.slice(1)
+        res += " "
+    }
+
+    return res.slice(0, res.length - 1)
+}
+
+function average(overall: Overall) {
+    let total = overall.defending
+        + overall.finishing
+        + overall.iq
+        + overall.passing
+        + overall.speed
+        + overall.rebounding
+        + overall.shooting
+        + overall.handling
+
+    return total / 8
+}
+
+function getStats(stats: Stat[]) {
+    let result = stats.reduce((prev, curr) => {
+        curr.points += prev.points
+        curr.rebounds += prev.rebounds
+        curr.assists += prev.assists
+        curr.fga += prev.fga
+        curr.fgm += prev.fgm
+        return curr
+    })
+
+    return {
+        points: result.points / stats.length,
+        rebounds: result.rebounds / stats.length,
+        assists: result.assists / stats.length,
+        fgpercent: result.fgm * 100 / result.fga
+    }
+}
+
+function generatePlayerProfile(
+    user: User,
+    player: Player, 
+    stat: Stat[], 
+    overall: Overall, 
+    team: Team
+): PlayerRecord {
+    let stat_avg = getStats(stat)
+
+    return {
+        index: user.id,
+        name: nameCapitalized(user.name),
+        team: "/" + team.name.toLowerCase() + ".png",
+        position: player.position,
+        overall: Math.round(average(
+            overall
+        )),
+        height: player.height,
+        weight: player.weight,
+        wingspan: player.wingspan,
+        vertical: player.vertical,
+        age: player.age,
+        jersey: player.jersey,
+        fg_file: [
+            "/mahomes_fg.png", 
+            "/cwill_fg.png", 
+            "/purdy_fg.png", 
+            "/jefferson_fg.png"
+        ][user.id % 4],
+        bg_file: [
+            "/mahomes_bg.png",
+            "/cwill_bg.png",
+            "/purdy_bg.png",
+            "/jefferson_bg.png"
+        ][user.id % 4],
+        defending: overall.defending,
+        finishing: overall.finishing,
+        iq: overall.iq,
+        passing: overall.passing,
+        speed: overall.speed,
+        rebounding: overall.rebounding,
+        shooting: overall.shooting,
+        handling: overall.handling,
+        points: stat_avg.points,
+        rebounds: stat_avg.rebounds,
+        assists: stat_avg.assists,
+        fgpercent: stat_avg.fgpercent
+    }
+}
+
 function generateTable(
     users: User[], 
     players: Player[], 
@@ -57,7 +153,20 @@ function generateTable(
     overalls: Overall[], 
     teams: Team[]
 ) {
-    console.log(users, players, stats, overalls, teams)
+
+    let table = []
+    for(let user of users) {
+        table.push(
+            generatePlayerProfile(
+                user,
+                players.find((p: Player) => p.id == user.id)!,
+                stats.filter((s: Stat) => s.id == user.id)!,
+                overalls.find((o: Overall) => o.id == user.id)!,
+                teams.find((t: Team) => t.players.includes(user.id))!
+            )
+        )
+    }
+    return table
 }
 
 async function getData() {
@@ -76,6 +185,7 @@ async function getData() {
     )
 }
 
+/*
 const test = [
     player(1, "Samarth",    "Shastry",      "/warriors.png",    "PG | SG",  "96",   "5'9",  "115 lbs", "5'11",      "26'", "19", "1",   "/mahomes_fg.png",   "/mahomes_bg.png",   99, 99, 99, 99, 99, 99, 99, 99),
     player(2, "Bhardwaj",   "Tallapragada", "/cavaliers.png",   "PG | SG",  "99",   "5'10", "140 lbs", "5'10",      "23'", "19", "8",   "/cwill_fg.png",     "/cwill_bg.png",     99, 99, 99, 99, 99, 99, 99, 99),
@@ -89,6 +199,7 @@ const test = [
     player(10, "Sunaad",    "Shastry",      "/warriors.png",    "SG",       "80",   "5'10", "125 lbs", "5'9",       "24'", "19", "12",  "/mahomes_fg.png",   "/mahomes_bg.png",   99, 99, 99, 99, 99, 99, 99, 99),
     player(11, "Ayush",     "Bhakandi",     "/cavaliers.png",   "SG",       "71",   "5'8",  "115 lbs", "5'8",       "22'", "19", "13",  "/cwill_fg.png",     "/cwill_bg.png",     99, 99, 99, 99, 99, 99, 99, 99),
 ]
+*/
 
 
 
@@ -97,30 +208,40 @@ interface LeagueDataProps {
 }
 
 export default function LeagueData(props: LeagueDataProps) {
-    const [selectedItem, setSelectedItem] = useState<PlayerRecord | null>(test[0])
-    const [active, setActive] = useState<PlayerRecord | null>(test[0])
-
+    const [data, setData] = useState([] as PlayerRecord[])
+    const [selectedItem, setSelectedItem] = useState<PlayerRecord | null>([] as any)
+    const [active, setActive] = useState<PlayerRecord | null>([] as any)
+    
     const [query, setQuery] = useState("")
-    const filteredItems =
-      query === ''
-        ? test
-        : test.filter((item) => 
-            (item.first_name + item.last_name)
-                .toLowerCase()
-                .replace(/\s+/g, '')
-                .includes(query.toLowerCase().replace(/\s+/g, ''))
-            )
+    const filtered =
+      query == ""
+        ? data
+        : data.filter((item) => {
+            for (let object of Object.entries(item)) {
+                let allowed = (object[1] as any)
+                    .toString()
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                    .includes(query.toLowerCase().replace(/\s+/g, ''))
+
+                if (allowed) return true
+            }
+            return false
+        })
 
     useEffect(() => {
-        // get all users and their respective player/overall/stats/teams records
-        // merge them into one required object
-        getData().then((value) => {
-            
+        getData().then((result) => {
+            setData(result)
         })
+    }, [])
+
+    useEffect(() => {
         setQuery(props.player ? props.player : "")
-        setActive(filteredItems[0])
-        setSelectedItem(filteredItems[0])
-    }, [props.player])
+        // this null needs to be here because nextjs is retarded and 
+        // doesn't allow switch between controlled and uncontrolled states
+        setActive(filtered[0] || null)
+        setSelectedItem(filtered[0] || null)
+    }, [data])
     
     return (
         <div className="flex h-full w-full justify-center items-center">
@@ -130,19 +251,18 @@ export default function LeagueData(props: LeagueDataProps) {
             value={selectedItem} 
             onChange={setSelectedItem}
         >
-            {active != null ? (
+            {filtered.length != 0 && active != null ? (
             <div className='flex flex-col divide-y gap-4'>
-                <RecordDescription active={active}/>
+                <RecordDescription active={active} />
                 <ComboboxOptions static className="h-[25rem] w-full bg-white">
-                    <>{query.length != 0 && filteredItems.length == 0 && setActive(null)}</>
                     <ScrollableXY 
                         headers={headers}
                     >
                         <ScrollRecords 
                             headers={headers} 
-                            data={filteredItems}
+                            data={filtered}
                             setActive={setActive}
-                            valueRepr={(item) => item.first_name + " " + item.last_name}
+                            valueRepr={(item) => item.name}
                         ></ScrollRecords>
                     </ScrollableXY>
                 </ComboboxOptions>
@@ -150,16 +270,13 @@ export default function LeagueData(props: LeagueDataProps) {
                 <EmptyData />
             )}
             <div className="flex flex-row w-full p-3 gap-3 bg-white items-center rounded-b-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 stroke-gray-400">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                </svg>
+                <Search className="h-6 w-6" />
                 <ComboboxInput 
                     className="!outline-none w-full"
                     placeholder='Search...'
                     onChange={(event) => {
                         window.history.replaceState(null, "", window.location.pathname)
                         setQuery(event.target.value)
-                        setActive(test[0])
                     }}
                 />
             </div>

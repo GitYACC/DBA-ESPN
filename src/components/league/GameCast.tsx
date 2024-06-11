@@ -51,7 +51,7 @@ function Winner(props: {score: number, isWinner: boolean, left: boolean}) {
 
 export default function GameCast(props: GameCastProps) {
     return (
-        <div className="flex flex-col gap-2 hover:bg-gray-50 cursor-pointer">
+        <div className="flex flex-col gap-2 w-fit overflow-hidden hover:bg-gray-50 cursor-pointer">
             <div className="flex p-4 border rounded-lg w-fit gap-4 items-center">
                 <div className="flex flex-col items-end">
                     <div className="text-gray-900 font-semibold text-base w-20 text-right">{props.team1.name}</div>

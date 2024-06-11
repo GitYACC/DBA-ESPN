@@ -173,28 +173,45 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
 */
 async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect()
-    if (!req.query.year) {
-        await prisma.$disconnect()
-        return res.status(400).json({
-            message: "year required",
-            details: "query error"
+
+    if (req.query.id && req.query.year) {
+        await prisma.stats.deleteMany({
+            where: {
+                id: parseInt(req.query.id as string),
+                year: req.query.year as string
+            }
         })
-    }
 
-    if (!req.query.id) {
-        await prisma.stats.deleteMany()
         await prisma.$disconnect()
-        return res.status(200).json({message: `all '${req.query.year}' user stat records deleted`})
+        return res.status(200).json({message: `all ${req.query.id} user stat records in ${req.query.year} deleted`})
     }
 
-    await prisma.stats.delete({
-        where: {
-            stats_id: parseInt(req.query.id as string)
-        }
-    })
+    if (req.query.year) {
+        await prisma.stats.deleteMany({
+            where: {
+                year: req.query.year as string
+            }
+        })
+
+        await prisma.$disconnect()
+        return res.status(200).json({message: `all user stat records in ${req.query.year} deleted`})
+    }
+
+    if (req.query.id) {
+        await prisma.stats.deleteMany({
+            where: {
+                id: parseInt(req.query.id as string)
+            }
+        })
+
+        await prisma.$disconnect()
+        return res.status(200).json({message: `all ${req.query.id} user stat records deleted`})
+    }
+
+    await prisma.stats.deleteMany()
 
     res.status(200).json({
-        message: `stat ${req.query.id as string} deleted`
+        message: `all stat records deleted`
     })
     await prisma.$disconnect()
 }
