@@ -23,14 +23,14 @@ export interface Team {
 async function GET(req: NextApiRequest, res: NextApiResponse) {
     await prisma.$connect() 
     if (req.query.id) {
-        const team = await prisma.teams.findFirst({
+        const team = await prisma.teams.findUnique({
             where: {
                 team_id: parseInt(req.query.id as string)
             }
         })
 
         await prisma.$disconnect()
-        return res.status(400).json({result: team})
+        return res.status(200).json({result: team})
     }
 
     const all_teams = await prisma.teams.findMany()
