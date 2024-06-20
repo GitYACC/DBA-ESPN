@@ -86,7 +86,7 @@ export default function ${svgName}(props: ${svgName}Props) {
             </div>
             <div className="grid grid-cols-12 p-10 gap-4">
             {data.map(([key, value], index) => (
-                <div className="flex flex-col items-center gap-2">
+                <div key={index} className="flex flex-col items-center gap-2">
                     <div 
                         className={twMerge(
                             "flex hover:cursor-pointer hover:border border-black", 

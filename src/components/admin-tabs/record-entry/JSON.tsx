@@ -19,7 +19,7 @@ interface JSONOptions {
 function String({ children }: { children: ReactNode }) {
     return (
         <div>
-            <span className="text-amber-700">"{children}"</span>
+            <span className="text-amber-700">&quot;{children}&quot;</span>
         </div>
     )
 }
@@ -101,7 +101,7 @@ function List(props: Record<Array<any>> & JSONOptions) {
                             switch (typeof value) {
                                 case "string":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -111,7 +111,7 @@ function List(props: Record<Array<any>> & JSONOptions) {
                                     )
                                 case "number":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -121,7 +121,7 @@ function List(props: Record<Array<any>> & JSONOptions) {
                                     )
                                 case "boolean":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -131,7 +131,7 @@ function List(props: Record<Array<any>> & JSONOptions) {
                                     )
                                 case "object":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -189,7 +189,7 @@ export default function JSON(props: Partial<Record<json>> & JSONOptions) {
                         {Object.entries(props.data!).map((value, index) => {
                             if (Array.isArray(value[1])) {
                                 return (
-                                    <div className={twMerge(
+                                    <div key={index} className={twMerge(
                                         ["xs", "sm"].includes(props.size) && "pl-4",
                                         ["md", "lg"].includes(props.size) && "pl-8",
                                         props.size == "xl" && "pl-16",
@@ -205,7 +205,7 @@ export default function JSON(props: Partial<Record<json>> & JSONOptions) {
                             switch (typeof value[1]) {
                                 case "string":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -218,7 +218,7 @@ export default function JSON(props: Partial<Record<json>> & JSONOptions) {
                                     )
                                 case "number":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -231,7 +231,7 @@ export default function JSON(props: Partial<Record<json>> & JSONOptions) {
                                     )
                                 case "boolean":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
@@ -244,7 +244,7 @@ export default function JSON(props: Partial<Record<json>> & JSONOptions) {
                                     )
                                 case "object":
                                     return (
-                                        <div className={twMerge(
+                                        <div key={index} className={twMerge(
                                             ["xs", "sm"].includes(props.size) && "pl-4",
                                             ["md", "lg"].includes(props.size) && "pl-8",
                                             props.size == "xl" && "pl-16",
