@@ -47,7 +47,7 @@ function StackNumber(props: StackProps) {
                 name={props.label} 
                 type="number"
                 onWheel={(e) => {
-                    e.target.blur()
+                    e.currentTarget.blur()
                     e.stopPropagation()
                 }}
                 className="w-full outline-none pl-4 text-sm" 
@@ -119,7 +119,7 @@ function USERS(props: DataProps) {
                 <div className="flex flex-col w-full">
                     <StackString label="username" callbackFn={callback} />
                     <StackString label="password" callbackFn={callback} />
-                    <StackString label="name" callbackFn={callback} />
+                    <StackNumber label="name" callbackFn={callback} />
                 </div>
                 <StackToggle label="admin" callbackFn={callback} />
             </div>
