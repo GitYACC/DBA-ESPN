@@ -1,9 +1,14 @@
 import { TabPanel, TabPanels } from "@headlessui/react";
-import DatabaseSelect from "./DatabaseSelect";
+import DatabaseSelect from "../admin-tabs/database/DatabaseSelect";
+import RecordEntry from "../admin-tabs/record-entry/RecordEntry";
 
 interface AdminViewProps {
     year: string
     table: string
+    error: {
+        message: string
+        details: string
+    }
 }
 
 export default function AdminView(props: AdminViewProps) {
@@ -13,7 +18,10 @@ export default function AdminView(props: AdminViewProps) {
                 <DatabaseSelect selected={props.table} />
             </TabPanel>
             <TabPanel className="w-full h-full">
-                Record Entry {props.table}
+                <RecordEntry 
+                    selected={props.table} 
+                    error={props.error} 
+                />
             </TabPanel>
             <TabPanel className="w-full h-full">
                 Game Entry {props.year}

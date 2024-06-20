@@ -13,8 +13,8 @@ export default function ScrollableXY(props: ScrollableXYProps) {
                 <thead>
                     <tr className="font-semibold">
                         <td className={twMerge(
-                            "text-gray-900 pl-8 py-[0.875rem]", 
-                            "text-left sticky top-0 left-0 z-10 bg-gray-200"
+                            "text-gray-900 py-[0.875rem] px-8", 
+                            "text-center sticky top-0 left-0 z-10 bg-gray-200"
                         )}>{props.headers[0]}</td>
                         {props.headers.slice(1).map((header) => (
                             <td 

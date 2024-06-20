@@ -1,12 +1,12 @@
 import { Tab, TabList } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, ReactNode, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 import Bars from "../svg/Bars";
 import BarsArrow from "../svg/BarsArrow";
 import Pencil from "../svg/Pencil";
 import Stats from "../svg/Stats";
-import YearSelector from "./YearSelector";
-import TableSelector from "./TableSelector";
+import YearSelector from "../admin-tabs/YearSelector";
+import TableSelector from "../admin-tabs/TableSelector";
 
 interface AdminSidebarProps {
     setYear: Dispatch<SetStateAction<string>>
