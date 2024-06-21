@@ -156,7 +156,7 @@ function generateTable(
 
     let table = []
     for(let user of users) {
-        if (!user.admin) {
+        if (!user.admin && teams.find((t: Team) => t.players.includes(user.id))) {
             table.push(
                 generatePlayerProfile(
                     user,
