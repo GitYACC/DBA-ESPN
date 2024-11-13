@@ -33,7 +33,7 @@ Dublin Basketball 🎉
 
 ## 📝 Background
 
-Started off as a silly idea to league-ify our friend group's basketball games. Soon, it caught on to a lot of the players across the city. We ended up having 50+ active players, and another 50+ substitiute players that would play whenever they had the time to. I created the website to keep track of players, stats and games. It included an admin panel for referees to manage updating stats.
+Started off as a silly idea to "league-ify" our friend group's basketball games. Soon, it caught on to a lot of the players across the city. We ended up having 50+ active players, and another 50+ substitute players that would play whenever they had the time to. I created the website to keep track of players, stats and games. It included an admin panel for referees to manage updating stats.
 
 ## 📈 Home Page
 
@@ -45,7 +45,7 @@ Home page shows active chart toppers in different stats, as well as team trades,
 
 ## 🧍‍♂️ Players
 
-Built a dynamic combobox to keep track of new players, and old, existsting ones.
+Built a dynamic combobox to keep track of new players, and old, existing ones.
 
 <img width="1511" alt="leaguepanel" src="https://github.com/user-attachments/assets/e913a123-e399-478f-b697-feb6606d31a0">
 
