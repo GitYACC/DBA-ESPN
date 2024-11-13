@@ -41,6 +41,24 @@ Home page shows active chart toppers in different stats, as well as team trades,
 
 <img width="1507" alt="homepage" src="https://github.com/user-attachments/assets/b85c119d-6cd6-4185-be91-a5d74b0e7424">
 
+</br>
+
+## 🧍‍♂️ Players
+
+Built a dynamic combobox to keep track of new players, and old, existsting ones.
+
+<img width="1511" alt="leaguepanel" src="https://github.com/user-attachments/assets/e913a123-e399-478f-b697-feb6606d31a0">
+
+</br>
+
+## 🔐 Admin Panel
+
+Admin panel with full access to data stored in the database. Allowed CRUD operations to the backend API to update and upkeep different data.
+
+<img width="1504" alt="adminpanel" src="https://github.com/user-attachments/assets/865356f2-aa5b-4004-830e-077717e874f6">
+
+</br>
+
 
 [![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=yushi1007)](https://github.com/yushi1007)
 
