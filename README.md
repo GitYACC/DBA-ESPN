@@ -58,10 +58,3 @@ Admin panel with full access to data stored in the database. Allowed CRUD operat
 <img width="1504" alt="adminpanel" src="https://github.com/user-attachments/assets/865356f2-aa5b-4004-830e-077717e874f6">
 
 </br>
-
-
-[![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=yushi1007)](https://github.com/yushi1007)
-
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=yushi1007&layout=compact)](https://github.com/yushi1007)
-
-[![Visitors](https://visitor-badge.glitch.me/badge?page_id=yushi1007.yushi1007)](https://www.yushi.dev/)
