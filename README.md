@@ -31,14 +31,16 @@ Dublin Basketball 🎉
 
 </br>
 
-## 📝 Latest Blog Posts
+## 📝 Background
 
-- [Deploy Rails API Backend to Heroku and React Frontend to Netlify](https://yushi95.medium.com/deploy-rails-api-backend-to-heroku-and-react-frontend-to-netlify-b515239d5022)
-- [Animation Login Popup Form by Using React State Hook and CSS](https://medium.com/geekculture/animation-login-popup-form-by-using-react-state-hook-and-css-7ecf803f1fa9)
-- [Checklist ✅ for Rails Application](https://yushi95.medium.com/checklist-for-rails-application-30868cb4f48b)
-- [Self and Operator in Ruby](https://blog.usejournal.com/self-in-ruby-5e8a91fa4602)
+Started off as a silly idea to league-ify our friend group's basketball games. Soon, it caught on to a lot of the players across the city. We ended up having 50+ active players, and another 50+ substitiute players that would play whenever they had the time to. I created the website to keep track of players, stats and games. It included an admin panel for referees to manage updating stats.
 
-## 📈 GitHub Stats 
+## 📈 Home Page
+
+Home page shows active chart toppers in different stats, as well as team trades, and other announcments (including the sign in page too)
+
+<img width="1507" alt="homepage" src="https://github.com/user-attachments/assets/b85c119d-6cd6-4185-be91-a5d74b0e7424">
+
 
 [![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=yushi1007)](https://github.com/yushi1007)
 
