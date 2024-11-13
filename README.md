@@ -1,7 +1,2 @@
-# READ
-## Important
-
-When cloning, a template `.env` will be provided. After setting your respective custom environment variables, you **should** uncomment the `.env.local` and `.env` in the `.gitignore` before publishing or pushing to any future git repositories
-
-Once you have set your Prisma PostgreSQL url to your desired database, you can run `npx prisma db pull` to pull your database, then run `npx prisma generate` to set up your Prisma Client
+![banner](https://media.licdn.com/dms/image/v2/D4E03AQFaM2oelzbytw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1713228377000?e=1736985600&v=beta&t=a25dD5rlCbuK-RZ4SbcvDxpnzvDT_fBAQXfAl6wCg5I)
 
