@@ -55,6 +55,7 @@ Built a dynamic combobox to keep track of new players, and old, existing ones.
 
 Admin panel with full access to data stored in the database. Allowed CRUD operations to the backend API to update and upkeep different data.
 
-<img width="1504" alt="adminpanel" src="https://github.com/user-attachments/assets/865356f2-aa5b-4004-830e-077717e874f6">
+![Untitled design](https://github.com/user-attachments/assets/9eb802a8-e1f5-41a2-829c-8e10146dde0b)
+
 
 </br>
